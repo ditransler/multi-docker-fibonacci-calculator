@@ -1,0 +1,16 @@
+{
+  "name": "fibonacci-calculator-worker",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "redis": "2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.3"
+  }
+}
