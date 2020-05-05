@@ -1,0 +1,20 @@
+language:
+  generic
+services:
+  - docker
+before_install:
+  - docker build -t ditransler/cra-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true ditransler/cra-test npm run test
+after_success:
+  - docker build -t ditransler/multi-docker-fibonacci-calculator-client ./client
+  - docker build -t ditransler/multi-docker-fibonacci-calculator-nginx ./nginx
+  - docker build -t ditransler/multi-docker-fibonacci-calculator-server ./server
+  - docker build -t ditransler/multi-docker-fibonacci-calculator-worker ./worker
+  # Log in to the Docker CLI
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take all images and push them to the Docker hub
+  - docker push ditransler/multi-docker-fibonacci-calculator-client
+  - docker push ditransler/multi-docker-fibonacci-calculator-nginx
+  - docker push ditransler/multi-docker-fibonacci-calculator-server
+  - docker push ditransler/multi-docker-fibonacci-calculator-worker
